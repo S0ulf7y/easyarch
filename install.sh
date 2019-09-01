@@ -30,16 +30,11 @@ sgdisk /dev/"$disk" -o
 
 # Calculate the right size of SWAP and the startpoint of the root partition
 ram=$(free -m | awk '/^Mem:/{print $2}')
-echo "$ram"
 if (( "$ram" < 2000 )); then
   ram=$((ram * 2))
-  echo "$ram"
 elif (( "$ram" > 8000 )); then
   ram=$((ram * 0,5))
-  echo "$ram"
 fi
-
-echo "$ram"
 
 # Ask the user if the right amount of Swap is calculated
 echo "$ram" "MB seems to be a good amount of Swap for your machine. Would you like to keep this value?"

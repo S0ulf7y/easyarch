@@ -14,7 +14,7 @@ sgdisk /dev/sda -o
 
 ram=$(free -m | awk '/^Mem:/{print $2}')
 ram=$((ram * 2))
-swapsize=$((ram + 514000))
+swapsize=$((ram + 514))
 rootstart=$((swapsize + 1))
 
 echo 'Swapsize:' "$swapsize"

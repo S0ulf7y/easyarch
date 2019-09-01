@@ -37,7 +37,7 @@ elif [[ "$ram" > 8000 ]]; then
 fi
 
 # Ask the user if the right amount of Swap is calculated
-echo "$ram seems to be a good amount of Swap for your machine. Would you like to keep this value?"
+echo "$ram" "seems to be a good amount of Swap for your machine. Would you like to keep this value?"
 select yn in "Yes" "No"; do
     case $yn in
         Yes ) break;;

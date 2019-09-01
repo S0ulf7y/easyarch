@@ -7,44 +7,54 @@
 # Quit the script if any executed command fails:
 set -e
 
-# Set German keyboard layout
+# Set german keyboard layout
 loadkeys de
 
-sgdisk /dev/sda -o
+echo "On which disk do you want to install Arch Linux?"
+echo 'You can just type i.e. "sda"'
+lsblk
+read disk
+
+echo "Attention! This will wipe the selected hard drive! Do you want to continue?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) break;;
+        No ) exit;;
+    esac
+done
+
+sgdisk /dev/"$disk" -o
 
 ram=$(free -m | awk '/^Mem:/{print $2}')
 ram=$((ram * 2))
 swapsize=$((ram + 514))
 rootstart=$((swapsize + 1))
 
-echo 'Swapsize:' "$swapsize"
-echo "Rootstart:" "$rootstart"
-
 echo "Creating GPT table..."
-parted /dev/sda mklabel gpt --script
+parted /dev/"$disk" mklabel gpt --script
 echo "Success!"
 echo "Creating boot partition..."
-parted /dev/sda mkpart BOOT fat32 1MiB 513MiB
+parted /dev/"$disk" mkpart BOOT fat32 1MiB 513MiB
 echo "Success!"
 echo "Creating Swap partition..."
-parted /dev/sda mkpart p_swap linux-swap 514MiB "$swapsize"MiB
+parted /dev/"$disk" mkpart p_swap linux-swap 514MiB "$swapsize"MiB
 echo "Success!"
 echo "Creating root partition..."
-parted /dev/sda mkpart p_arch ext4 "$rootstart"MiB 100%
+parted /dev/"$disk" mkpart p_arch ext4 "$rootstart"MiB 100%
 echo "Success!"
-echo "Setting /dev/sda as EFI device..."
-parted /dev/sda set 1 esp on
+echo "Setting /dev/"$disk" as EFI device..."
+parted /dev/"$disk" set 1 esp on
 echo "Success!"
 
-mkfs.ext4 -L p_arch /dev/sda3
-mkswap -L p_swap /dev/sda2
-mkfs.fat -F 32 -n BOOT /dev/sda1
+mkfs.ext4 -L p_arch /dev/"$disk"3
+mkswap -L p_swap /dev/"$disk"2
+mkfs.fat -F 32 -n BOOT /dev/"$disk"1
 
-mount /dev/sda3 /mnt
+mount /dev/"$disk"3 /mnt
 
 mkdir /mnt/boot
 
-mount /dev/sda1 /mnt/boot
+mount /dev/"$disk"1 /mnt/boot
 
 swapon -L p_swap
 

@@ -30,6 +30,7 @@ sgdisk /dev/"$disk" -o
 
 # Calculate the right size of SWAP and the startpoint of the root partition
 ram=$(free -m | awk '/^Mem:/{print $2}')
+echo "$ram"
 if [[ "$ram" < 2000 ]]; then
   ram=$((ram * 2))
   echo "$ram"

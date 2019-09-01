@@ -30,7 +30,22 @@ sgdisk /dev/"$disk" -o
 
 # Calculate the right size of SWAP and the startpoint of the root partition
 ram=$(free -m | awk '/^Mem:/{print $2}')
-ram=$((ram * 2))
+if [[ "$ram" < 2000 ]]; then
+  ram = $((ram * 2))
+elif [[ "$ram" > 8000]]; then
+  ram = $((ram * 0,5))
+fi
+
+# Ask the user if the right amount of Swap is calculated
+echo "$ram seems to be a good amount of Swap for your machine. Would you like to keep this value?"
+select yn in "Yes" "No"; do
+    case $yn in
+        Yes ) break;;
+        No ) read -p "Enter the Swap size you wish to set:" ram;;
+    esac
+done
+
+# Set the endsector for the Swap partition and the startsector for the root partition
 swapsize=$((ram + 514))
 rootstart=$((swapsize + 1))
 

@@ -12,7 +12,7 @@ loadkeys de
 
 sgdisk /dev/sda -o
 
-ram=$(free | awk '/^Mem:/{print $2}')
+ram=$(free -m | awk '/^Mem:/{print $2}')
 ram=$((ram * 2))
 swapsize=$((ram + 514000))
 rootstart=$((swapsize + 1))
@@ -27,10 +27,10 @@ echo "Creating boot partition..."
 parted /dev/sda mkpart BOOT fat32 1MiB 513MiB
 echo "Success!"
 echo "Creating Swap partition..."
-parted /dev/sda mkpart p_swap linux-swap 514MiB "$swapsize"B
+parted /dev/sda mkpart p_swap linux-swap 514MiB "$swapsize"MiB
 echo "Success!"
 echo "Creating root partition..."
-parted /dev/sda mkpart p_arch ext4 "$rootstart"B 100%
+parted /dev/sda mkpart p_arch ext4 "$rootstart"MiB 100%
 echo "Success!"
 echo "Setting /dev/sda as EFI device..."
 parted /dev/sda set 1 esp on

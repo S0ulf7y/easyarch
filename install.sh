@@ -13,8 +13,8 @@ loadkeys de
 sgdisk /dev/sda -o
 
 ram=$(free | awk '/^Mem:/{print $2}')
-ram=$((phymem * 2))
-swapsize=$((phymem + 514000))
+ram=$((ram * 2))
+swapsize=$((ram + 514000))
 rootstart=$((swapsize + 1))
 
 echo 'Swapsize:' "$swapsize"

@@ -13,11 +13,21 @@ ram=$((phymem * 2))
 swapsize=$((phymem + 514000))
 rootstart=$((swapsize + 1))
 
+echo "Creating GPT table..."
 parted /dev/sda mklabel gpt --script
+echo "Success!"
+echo "Creating boot partition..."
 parted /dev/sda mkpart BOOT fat32 1MiB 513MiB
+echo "Success!"
+echo "Creating Swap partition..."
 parted /dev/sda mkpart p_swap linux-swap 514MiB "$swapsize"KiB
+echo "Success!"
+echo "Creating root partition..."
 parted /dev/sda mkpart p_arch ext4 "$rootstart"KiB 100%
+echo "Success!"
+echo "Setting /dev/sda as EFI device..."
 parted /dev/sda set 1 esp on
+echo "Success!"
 
 mkfs.ext4 -L p_arch /dev/sda3
 mkswap -L p_swap /dev/sda2

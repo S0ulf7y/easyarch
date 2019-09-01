@@ -32,7 +32,7 @@ sgdisk /dev/"$disk" -o
 ram=$(free -m | awk '/^Mem:/{print $2}')
 if [[ "$ram" < 2000 ]]; then
   ram = $((ram * 2))
-elif [[ "$ram" > 8000]]; then
+elif [[ "$ram" > 8000] ]; then
   ram = $((ram * 0,5))
 fi
 

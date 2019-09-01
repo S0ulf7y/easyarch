@@ -32,21 +32,21 @@ sgdisk /dev/"$disk" -o
 ram=$(free -m | awk '/^Mem:/{print $2}')
 echo "$ram"
 if [[ "$ram" < 2000 ]]; then
-  ram=$(($ram * 2))
-  echo "$ram"
+  bestswap=$(($ram * 2))
+  echo "$bestswap"
 elif [[ "$ram" > 8000 ]]; then
-  ram=$(($ram * 0,5))
-  echo "$ram"
+  bestswap=$(($ram * 0,5))
+  echo "$bestswap"
 fi
 
 echo "$ram"
 
 # Ask the user if the right amount of Swap is calculated
-echo "$ram" "seems to be a good amount of Swap for your machine. Would you like to keep this value?"
+echo "$bestswap" "seems to be a good amount of Swap for your machine. Would you like to keep this value?"
 select yn in "Yes" "No"; do
     case $yn in
         Yes ) break;;
-        No ) read -p "Enter the Swap size you wish to set:" ram;;
+        No ) read -p "Enter the Swap size you wish to set:" bestswap;;
     esac
 done
 

@@ -4,6 +4,10 @@
 # The installation contains a setup for german language user expirience.
 # A working internet connection is required.
 
+# Quit the script if any executed command fails:
+set -e
+
+# Set German keyboard layout
 loadkeys de
 
 sgdisk /dev/sda -o
@@ -12,6 +16,9 @@ ram=$(free | awk '/^Mem:/{print $2}')
 ram=$((phymem * 2))
 swapsize=$((phymem + 514000))
 rootstart=$((swapsize + 1))
+
+echo 'Swapsize:' "$swapsize"
+echo "Rootstart:" "$rootstart"
 
 echo "Creating GPT table..."
 parted /dev/sda mklabel gpt --script

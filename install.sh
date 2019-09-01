@@ -31,12 +31,12 @@ sgdisk /dev/"$disk" -o
 # Calculate the right size of SWAP and the startpoint of the root partition
 ram=$(free -m | awk '/^Mem:/{print $2}')
 echo "$ram"
-if [[ "$ram" < 2000 ]]; then
+if [[ $ram < 2000 ]]; then
   bestswap=$(($ram * 2))
   echo "$bestswap"
 fi
-if [[ "$ram" > 8000 ]]; then
-  bestswap=$(($ram * 0,5))
+if [[ $ram > 8000 ]]; then
+  bestswap=$((ram * 0,5))
   echo "$bestswap"
 fi
 

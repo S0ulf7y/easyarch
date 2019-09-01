@@ -8,10 +8,15 @@ loadkeys de
 
 sgdisk /dev/sda -o
 
+ram=$(free | awk '/^Mem:/{print $2}')
+ram=$((phymem * 2))
+swapsize=$((phymem + 514000))
+rootstart=$((swapsize + 1))
+
 parted /dev/sda mklabel gpt --script
 parted /dev/sda mkpart BOOT fat32 1MiB 513MiB
-parted /dev/sda mkpart p_swap linux-swap 514MiB 4610MiB
-parted /dev/sda mkpart p_arch ext4 4611MiB 100%
+parted /dev/sda mkpart p_swap linux-swap 514MiB "$swapsize"KiB
+parted /dev/sda mkpart p_arch ext4 "$rootstart"KiB 100%
 parted /dev/sda set 1 esp on
 
 mkfs.ext4 -L p_arch /dev/sda3

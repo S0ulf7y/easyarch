@@ -1,4 +1,6 @@
-echo marios-e6430 > /etc/hostname
+echo "Please anter the new hostname"
+read hostname
+echo "$hostname" > /etc/hostname
 
 echo LANG=de_DE.UTF-8 > /etc/locale.conf
 
@@ -17,26 +19,28 @@ pacman -Sy
 
 mkinitcpio -p linux
 
-echo 'Neues root Passwort:'
+echo 'Set root passwort:'
 passwd
 
 grub-mkconfig -o /boot/grub/grub.cfg
 
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
 
-systemctl enable acpid avahi-daemon org.cups.cupsd cronie systemd-timesyncd slim 
+systemctl enable acpid avahi-daemon org.cups.cupsd cronie systemd-timesyncd slim
 
-useradd -m -g users -s /bin/bash mario
+echo "Please enter your user name"
+read username
+useradd -m -g users -s /bin/bash "$username"
 
-echo 'Neues mario Passwort:'
-passwd mario
+echo 'Set' "$username"'s' 'password:'
+passwd "$username"
 
 echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 
-gpasswd -a mario wheel
+gpasswd -a "$username" wheel
 
-echo '#!/bin/bash' > /home/mario/.xinitrc
-echo 'exec startxfce4' >> /home/mario/.xinitrc
-echo 'nm-applet' >> /home/mario/.xinitrc
+echo '#!/bin/bash' > /home/"$username"/.xinitrc
+echo 'exec startxfce4' >> /home/"$username"/.xinitrc
+echo 'nm-applet' >> /home/"$username"/.xinitrc
 
 reboot

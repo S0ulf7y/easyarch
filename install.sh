@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # This script is intendet to install a simple and lightweight instance of Arch Linux on Desktop an Notebook systems.
+# The installation contains a setup for german language user expirience.
 # A working internet connection is required.
 
 loadkeys de
@@ -27,7 +28,7 @@ swapon -L p_swap
 
 pacman -Sy
 
-pacstrap /mnt base base-devel intel-ucode wpa_supplicant dialog grub acpid dbus avahi cups cronie xorg xorg-drivers xf86-input-synaptics ttf-dejavu slim xfce4 xfce4-goodies faenza-icon-theme alsa-utils firefox firefox-i18n-de flashplugin icedtea-web vlc clementine gimp ntfs-3g gvfs udisks2 udiskie pulseaudio pulseaudio-alsa wireless_tools networkmanager network-manager-applet gnome-keyring thunderbird thunderbird-i18n-de xscreensaver atom evince redshift sudo dkms linux-headers dosfstools efibootmgr
+pacstrap /mnt base base-devel intel-ucode wpa_supplicant dialog grub acpid dbus avahi cups cronie xorg xorg-drivers xf86-input-synaptics ttf-dejavu slim xfce4 xfce4-goodies faenza-icon-theme alsa-utils firefox firefox-i18n-de flashplugin icedtea-web ntfs-3g gvfs udisks2 udiskie pulseaudio pulseaudio-alsa wireless_tools networkmanager network-manager-applet gnome-keyring xscreensaver redshift sudo dkms linux-headers dosfstools efibootmgr
 
 genfstab -Lp /mnt > /mnt/etc/fstab
 

@@ -1,4 +1,7 @@
 #!/bin/bash
+#
+# This script is intendet to install a simple and lightweight instance of Arch Linux on Desktop an Notebook systems.
+# A working internet connection is required.
 
 loadkeys de
 
@@ -28,6 +31,6 @@ pacstrap /mnt base base-devel intel-ucode wpa_supplicant dialog grub acpid dbus 
 
 genfstab -Lp /mnt > /mnt/etc/fstab
 
-cp /install/install2.sh /mnt
+cp ./install2.sh /mnt
 
 arch-chroot /mnt /install2.sh

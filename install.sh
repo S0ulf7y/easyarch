@@ -42,13 +42,15 @@ fi
 echo "$ram"
 
 # Ask the user if the right amount of Swap is calculated
-echo "$ram" "seems to be a good amount of Swap for your machine. Would you like to keep this value?"
+echo "$ram" "MB seems to be a good amount of Swap for your machine. Would you like to keep this value?"
 select yn in "Yes" "No"; do
     case $yn in
         Yes ) break;;
-        No ) read -p "Enter the Swap size you wish to set:" ram;;
+        No ) read -p "Enter the Swap size you wish to set:" ram; break;;
     esac
 done
+
+echo "Ok, Swap will be sized to" "$ram"
 
 # Set the endsector for the Swap partition and the startsector for the root partition
 swapsize=$((ram + 514))

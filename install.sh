@@ -89,7 +89,9 @@ mount /dev/"$disk"1 /mnt/boot
 # Turn Swap on for the swap partiton
 swapon -L p_swap
 
-# Update the pacman index
+# Configure and update the pacman index
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
+grep -E -A 1 ".*Germany.*$" /etc/pacman.d/mirrorlist.bak | sed '/--/d' > /etc/pacman.d/mirrorlist
 pacman -Sy
 
 # Install the base system

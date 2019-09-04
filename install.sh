@@ -3,6 +3,7 @@
 # This script is intendet to install a simple and lightweight instance of Arch Linux on Desktop and Notebook systems.
 # The installation contains a setup for german language user expirience.
 # A working internet connection is required.
+# The installation process is splitted in two scripts. This is script 1/2 for the installation of the base system. Script 2/2 will be copied to the hard drive and executed automatically.
 
 # Quit the script if any executed command fails:
 set -e

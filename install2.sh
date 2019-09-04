@@ -38,8 +38,8 @@ echo 'Set root passwort:'
 passwd
 
 # Configure and install GRUB2
-grub-mkconfig -o /boot/grub/grub.cfg
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
+grub-mkconfig -o /boot/grub/grub.cfg
 
 # Enable all necessary services
 systemctl enable acpid avahi-daemon org.cups.cupsd cronie systemd-timesyncd slim

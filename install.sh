@@ -103,7 +103,7 @@ echo "Would you like to install some additional software?"
 echo "This will install VLC, Clementine, Gimp, Thunderbird, Firefox and Evince"
 select yn in "Yes" "No"; do
     case $yn in
-        Yes ) pacstrap /mnt vlc clementine gimp thunderbird thunderbird-i18n-de atom evince firefox firefox-i18n-de flashplugin icedtea-web; break;;
+        Yes ) pacstrap /mnt vlc clementine gimp thunderbird thunderbird-i18n-de atom evince firefox firefox-i18n-de flashplugin icedtea-web archlinux-themes-slim gnome-system-monitor; break;;
         No ) echo "Ok, no additional software will be installed."; break;;
     esac
 done

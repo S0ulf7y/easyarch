@@ -37,12 +37,15 @@ mkinitcpio -p linux
 echo 'Set root passwort:'
 passwd
 
-# Configure and install GRUB2
+# Install and configure GRUB2
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Enable all necessary services
-systemctl enable acpid avahi-daemon org.cups.cupsd cronie systemd-timesyncd slim
+systemctl enable acpid avahi-daemon org.cups.cupsd cronie systemd-timesyncd slim NetworkManager wpa_supplicant
+
+# Disable the default DHCP service
+systemctl disable dhcpcd dhcpcd@
 
 # Create a new user
 echo "Please enter your user name"
@@ -59,9 +62,15 @@ echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 # Add the user to the wheel group
 gpasswd -a "$username" wheel
 
+# Add the user to the network group
+gpasswd -a "$username" network
+
 # Load xfce4 on startup
 echo '#!/bin/bash' > /home/"$username"/.xinitrc
 echo 'exec startxfce4' >> /home/"$username"/.xinitrc
 echo 'nm-applet' >> /home/"$username"/.xinitrc
 
-reboot
+# Set german keyboard layout for xfce4
+localectl set-x11-keymap de
+
+echo 'Done! Please restart your machine.'

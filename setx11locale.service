@@ -1,0 +1,8 @@
+[Unit]
+Description=Set the X11 keyboard layout to german
+
+[Service]
+ExecStart=/usr/bin/setx11locale
+
+[Install]
+WantedBy=multi-user.target 

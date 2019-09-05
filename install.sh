@@ -114,5 +114,9 @@ genfstab -Lp /mnt > /mnt/etc/fstab
 # Copy the second file for the advanced config process to the hdd
 cp ./install2.sh /mnt
 
+# Copy the files for the X11 locale setup to the hdd
+cp ./setx11locale.service /mnt/etc/systemd/system
+cp ./setx11locale /mnt/usr/bin
+
 # Switch to the newly installed system and run the second file
 arch-chroot /mnt /install2.sh

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Quit the script if any executed command fails:
+set -e
+
+# Set the X11 keymap to german
+localectl set-x11-keymap de
+
+# Disable the service
+systemctl disable setx11locale
+
+# Delete the service
+rm /etc/systemd/system/setx11locale.service

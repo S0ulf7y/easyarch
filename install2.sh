@@ -34,7 +34,7 @@ pacman -Sy
 mkinitcpio -p linux
 
 # Set a new root password
-echo 'Set root passwort:'
+echo 'Set root password:'
 passwd
 
 # Install and configure GRUB2
@@ -42,10 +42,13 @@ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Enable all necessary services
-systemctl enable acpid avahi-daemon org.cups.cupsd cronie systemd-timesyncd slim NetworkManager wpa_supplicant
+systemctl enable acpid avahi-daemon org.cups.cupsd cronie systemd-timesyncd slim NetworkManager wpa_supplicant setx11locale
 
 # Disable the default DHCP service
 systemctl disable dhcpcd dhcpcd@
+
+# Make the script for the X11 keyymap executable
+chmod +x /usr/bin/setx11locale
 
 # Create a new user
 echo "Please enter your user name"
@@ -69,8 +72,5 @@ gpasswd -a "$username" network
 echo '#!/bin/bash' > /home/"$username"/.xinitrc
 echo 'exec startxfce4' >> /home/"$username"/.xinitrc
 echo 'nm-applet' >> /home/"$username"/.xinitrc
-
-# Set german keyboard layout for xfce4
-localectl set-x11-keymap de
 
 echo 'Done! Please restart your machine.'

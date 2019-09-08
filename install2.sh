@@ -5,7 +5,6 @@
 # A working internet connection is required.
 # The installation process is splitted in two scripts. This is script 2/2 for the configuration of the base system.
 #
-# TODO: Install an AUR helper
 # TODO: Configure a screenlocker
 # TODO: Configure GRUB2 Theme and Timeout
 # TODO: Setup /home and Swap encryption option
@@ -14,7 +13,7 @@
 set -e
 
 # Set a new hostname
-echo "Please anter the new hostname"
+echo "Please enter the new hostname"
 read hostname
 echo "$hostname" > /etc/hostname
 
@@ -77,5 +76,12 @@ gpasswd -a "$username" network
 echo '#!/bin/bash' > /home/"$username"/.xinitrc
 echo 'exec startxfce4' >> /home/"$username"/.xinitrc
 echo 'nm-applet' >> /home/"$username"/.xinitrc
+
+# Install pikaur as the default AUR helper
+git clone https://aur.archlinux.org/pikaur.git
+cd pikaur/
+makepkg -fsri --noconfirm
+cd ..
+rm -rf pikaur/
 
 echo 'Done! Please restart your machine.'

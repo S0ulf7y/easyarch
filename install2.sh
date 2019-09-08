@@ -84,4 +84,13 @@ makepkg -fsri --noconfirm
 cd ..
 rm -rf pikaur/
 
+# Autostart Redshift
+mv /Redshift.desktop /home/"$username"/.config/autostart
+
+# Configure username and email for git
+read -p "Please enter your username for git:" gitname
+read -p "Please enter your email for git:" gitmail
+git config --global user.name "$gitname"
+git config --global user.email "$gitmail"
+
 echo 'Done! Please restart your machine.'

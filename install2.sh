@@ -89,9 +89,4 @@ read -p "Please enter your email for git:" gitmail
 git config --global user.name "$gitname"
 git config --global user.email "$gitmail"
 
-# Configure ZSH as the default shell
-pacman -S zsh
-touch /home/"$username"/.zshrc
-chsh -s /bin/zsh "$username"
-
 echo 'Done! Please restart your machine.'

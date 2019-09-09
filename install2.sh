@@ -80,7 +80,7 @@ echo 'nm-applet' >> /home/"$username"/.xinitrc
 # Install pikaur as the default AUR helper
 git clone https://aur.archlinux.org/pikaur.git
 cd pikaur/
-su $username -c makepkg -fsri --noconfirm
+su $username -c "makepkg -fsri --noconfirm"
 cd ..
 rm -rf pikaur/
 

@@ -5,6 +5,7 @@
 # A working internet connection is required.
 # The installation process is splitted in two scripts. This is script 2/2 for the configuration of the base system.
 #
+# TODO: Install an AUR helper
 # TODO: Configure a screenlocker
 # TODO: Configure GRUB2 Theme and Timeout
 # TODO: Setup /home and Swap encryption option
@@ -13,31 +14,9 @@
 set -e
 
 # Set a new hostname
-echo "Please enter the new hostname"
+echo "Please anter the new hostname"
 read hostname
 echo "$hostname" > /etc/hostname
-
-# Set a new root password
-echo 'Set root password:'
-passwd
-
-# Create a new user
-echo "Please enter your user name"
-read username
-useradd -m -g users -s /bin/bash "$username"
-
-# Set the new users password
-echo 'Set' "$username"'s' 'password:'
-passwd "$username"
-
-# Give the "wheel" group sudo permissions
-echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
-
-# Add the user to the wheel group
-gpasswd -a "$username" wheel
-
-# Add the user to the network group
-gpasswd -a "$username" network
 
 # Set the locale
 echo LANG=de_DE.UTF-8 > /etc/locale.conf
@@ -59,6 +38,10 @@ pacman -Sy
 # Create the initramfs
 mkinitcpio -p linux
 
+# Set a new root password
+echo 'Set root password:'
+passwd
+
 # Install and configure GRUB2
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -72,15 +55,27 @@ systemctl disable dhcpcd dhcpcd@
 # Make the script for the X11 keyymap executable
 chmod +x /usr/bin/setx11locale
 
+# Create a new user
+echo "Please enter your user name"
+read username
+useradd -m -g users -s /bin/bash "$username"
+
+# Set the new users password
+echo 'Set' "$username"'s' 'password:'
+passwd "$username"
+
+# Give the "wheel" group sudo permissions
+echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
+
+# Add the user to the wheel group
+gpasswd -a "$username" wheel
+
+# Add the user to the network group
+gpasswd -a "$username" network
+
 # Load xfce4 on startup
 echo '#!/bin/bash' > /home/"$username"/.xinitrc
 echo 'exec startxfce4' >> /home/"$username"/.xinitrc
 echo 'nm-applet' >> /home/"$username"/.xinitrc
-
-# Configure username and email for git
-read -p "Please enter your username for git:" gitname
-read -p "Please enter your email for git:" gitmail
-git config --global user.name "$gitname"
-git config --global user.email "$gitmail"
 
 echo 'Done! Please restart your machine.'

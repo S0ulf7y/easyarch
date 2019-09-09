@@ -17,6 +17,19 @@ echo "Please enter the new hostname"
 read hostname
 echo "$hostname" > /etc/hostname
 
+# Set the new users password
+echo 'Set' "$username"'s' 'password:'
+passwd "$username"
+
+# Give the "wheel" group sudo permissions
+echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
+
+# Add the user to the wheel group
+gpasswd -a "$username" wheel
+
+# Add the user to the network group
+gpasswd -a "$username" network
+
 # Set the locale
 echo LANG=de_DE.UTF-8 > /etc/locale.conf
 echo de_DE.UTF-8 UTF-8 >> /etc/locale.gen
@@ -59,19 +72,6 @@ echo "Please enter your user name"
 read username
 useradd -m -g users -s /bin/bash "$username"
 
-# Set the new users password
-echo 'Set' "$username"'s' 'password:'
-passwd "$username"
-
-# Give the "wheel" group sudo permissions
-echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
-
-# Add the user to the wheel group
-gpasswd -a "$username" wheel
-
-# Add the user to the network group
-gpasswd -a "$username" network
-
 # Load xfce4 on startup
 echo '#!/bin/bash' > /home/"$username"/.xinitrc
 echo 'exec startxfce4' >> /home/"$username"/.xinitrc
@@ -89,14 +89,9 @@ read -p "Please enter your email for git:" gitmail
 git config --global user.name "$gitname"
 git config --global user.email "$gitmail"
 
-# Configure the default shell
-echo "Which shell do you prefer?"
-select shell in "Bash" "ZSH" "fish"; do
-    case $shell in
-        Bash ) break;;
-        ZSH ) pacman -S zsh; touch /home/"$username"/.zshrc; sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"; chsh -s /bin/zsh "$username"; break;;
-        fish ) pacman -S fish; chsh -s "/usr/bin/fish"; break;;
-    esac
-done
+# Configure ZSH as the default shell
+pacman -S zsh
+touch /home/"$username"/.zshrc
+chsh -s /bin/zsh "$username"
 
 echo 'Done! Please restart your machine.'

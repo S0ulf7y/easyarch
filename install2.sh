@@ -17,6 +17,15 @@ echo "Please enter the new hostname"
 read hostname
 echo "$hostname" > /etc/hostname
 
+# Set a new root password
+echo 'Set root password:'
+passwd
+
+# Create a new user
+echo "Please enter your user name"
+read username
+useradd -m -g users -s /bin/bash "$username"
+
 # Set the new users password
 echo 'Set' "$username"'s' 'password:'
 passwd "$username"
@@ -62,15 +71,6 @@ systemctl disable dhcpcd dhcpcd@
 
 # Make the script for the X11 keyymap executable
 chmod +x /usr/bin/setx11locale
-
-# Set a new root password
-echo 'Set root password:'
-passwd
-
-# Create a new user
-echo "Please enter your user name"
-read username
-useradd -m -g users -s /bin/bash "$username"
 
 # Load xfce4 on startup
 echo '#!/bin/bash' > /home/"$username"/.xinitrc

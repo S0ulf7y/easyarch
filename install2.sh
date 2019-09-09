@@ -14,8 +14,7 @@
 set -e
 
 # Set a new hostname
-echo "Please anter the new hostname"
-read hostname
+read -p "Please enter the new hostname: " hostname
 echo "$hostname" > /etc/hostname
 
 # Set the locale

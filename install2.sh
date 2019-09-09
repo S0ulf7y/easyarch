@@ -87,6 +87,16 @@ rm -rf pikaur/
 # Autostart Redshift
 mv /Redshift.desktop /home/"$username"/.config/autostart
 
+# Configure the default shell
+echo "Which shell do you prefer?"
+select shell in "Bash" "ZSH" "fish"; do
+    case $shell in
+        Bash ) break;;
+        ZSH ) pacman -S zsh; touch /home/"$username"/.zshrc; sh -c "$(wget -O- https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"; chsh -s /bin/zsh "$username"; break;;
+        fish ) pacman -S fish; chsh -s "/usr/bin/fish"; break;;
+    esac
+done
+
 # Configure username and email for git
 read -p "Please enter your username for git:" gitname
 read -p "Please enter your email for git:" gitmail

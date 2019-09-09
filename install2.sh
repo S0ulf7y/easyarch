@@ -77,12 +77,6 @@ echo '#!/bin/bash' > /home/"$username"/.xinitrc
 echo 'exec startxfce4' >> /home/"$username"/.xinitrc
 echo 'nm-applet' >> /home/"$username"/.xinitrc
 
-# Autostart Redshift
-mkdir /home/"$username"/.config/
-mkdir /home/"$username"/.config/autostart/
-mv /Redshift.desktop /home/"$username"/.config/autostart
-
-
 # Configure username and email for git
 read -p "Please enter your username for git:" gitname
 read -p "Please enter your email for git:" gitmail

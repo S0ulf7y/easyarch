@@ -77,8 +77,5 @@ cp ./install2.sh /mnt
 cp ./setx11locale.service /mnt/etc/systemd/system
 cp ./setx11locale /mnt/usr/bin
 
-# Copy the redshift autostart file
-cp ./Redshift.desktop /mnt
-
 # Switch to the newly installed system and run the second file
 arch-chroot /mnt /install2.sh

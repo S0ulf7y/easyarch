@@ -77,13 +77,6 @@ echo '#!/bin/bash' > /home/"$username"/.xinitrc
 echo 'exec startxfce4' >> /home/"$username"/.xinitrc
 echo 'nm-applet' >> /home/"$username"/.xinitrc
 
-# Install pikaur as the default AUR helper
-git clone https://aur.archlinux.org/pikaur.git
-cd pikaur/
-su $username -c "makepkg -fsri --noconfirm"
-cd ..
-rm -rf pikaur/
-
 # Autostart Redshift
 mv /Redshift.desktop /home/"$username"/.config/autostart
 

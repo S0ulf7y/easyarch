@@ -82,6 +82,13 @@ mkdir /home/"$username"/.config/
 mkdir /home/"$username"/.config/autostart/
 mv /Redshift.desktop /home/"$username"/.config/autostart
 
+
+# Configure username and email for git
+read -p "Please enter your username for git:" gitname
+read -p "Please enter your email for git:" gitmail
+git config --global user.name "$gitname"
+git config --global user.email "$gitmail"
+
 # Configure the default shell
 echo "Which shell do you prefer?"
 select shell in "Bash" "ZSH" "fish"; do
@@ -91,11 +98,5 @@ select shell in "Bash" "ZSH" "fish"; do
         fish ) pacman -S fish; chsh -s "/usr/bin/fish"; break;;
     esac
 done
-
-# Configure username and email for git
-read -p "Please enter your username for git:" gitname
-read -p "Please enter your email for git:" gitmail
-git config --global user.name "$gitname"
-git config --global user.email "$gitmail"
 
 echo 'Done! Please restart your machine.'

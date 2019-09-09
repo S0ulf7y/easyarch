@@ -37,10 +37,6 @@ pacman -Sy
 # Create the initramfs
 mkinitcpio -p linux
 
-# Set a new root password
-echo 'Set root password:'
-passwd
-
 # Install and configure GRUB2
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
 grub-mkconfig -o /boot/grub/grub.cfg
@@ -53,6 +49,10 @@ systemctl disable dhcpcd dhcpcd@
 
 # Make the script for the X11 keyymap executable
 chmod +x /usr/bin/setx11locale
+
+# Set a new root password
+echo 'Set root password:'
+passwd
 
 # Create a new user
 echo "Please enter your user name"

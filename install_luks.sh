@@ -80,6 +80,9 @@ genfstab -Lp /mnt > /mnt/etc/fstab
 # Copy the correct mkinitcpio.conf file for LUKS to /mnt
 cp ./mkinitcpio.conf /mnt/etc/
 
+# Copy the correct grub config file to /mnt
+cp ./grub /mnt/etc/default
+
 # Copy the second file for the advanced config process to the hdd
 cp ./install2.sh /mnt
 
@@ -88,4 +91,4 @@ cp ./setx11locale.service /mnt/etc/systemd/system
 cp ./setx11locale /mnt/usr/bin
 
 # Switch to the newly installed system and run the second file
-arch-chroot /mnt
+arch-chroot /mnt /install2.sh

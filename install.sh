@@ -12,42 +12,36 @@ set -e
 # Set german keyboard layout
 loadkeys de
 
-# Select the disk for the installation
-echo "On which disk do you want to install Arch Linux?"
-echo 'You can just type i.e. "sda"'
-lsblk
-read -p "Disk:" disk
-
 # Wipe the disk
-sgdisk /dev/"$disk" -o
+sgdisk /dev/nvme0n1 -o
 # Create the partition table
 echo "Creating GPT table..."
-parted /dev/"$disk" mklabel gpt --script
+parted /dev/nvme0n1 mklabel gpt --script
 echo "Success!"
 
 # Create the boot partition (always 512MB)
 echo "Creating boot partition..."
-parted /dev/"$disk" mkpart BOOT fat32 1MiB 513MiB
+parted /dev/nvme0n1 mkpart BOOT fat32 1MiB 513MiB
 echo "Success!"
 
 # Create the root partiton dynamically after the Swap partition
 echo "Creating root partition..."
-parted /dev/"$disk" mkpart p_arch ext4 514MiB 100%
+parted /dev/nvme0n1 mkpart p_arch ext4 514MiB 100%
 echo "Success!"
 
 # Set the boot disk as an EFI device
 echo "Setting /dev/"$disk" as EFI device..."
-parted /dev/"$disk" set 1 esp on
+parted /dev/nvme0n1 set 1 esp on
 echo "Success!"
 
 # Create the file systems for the new partitions
-mkfs.ext4 -L p_arch /dev/"$disk"2
-mkfs.fat -F 32 -n BOOT /dev/"$disk"1
+mkfs.ext4 -L p_arch /dev/nvme0n1p2
+mkfs.fat -F 32 -n BOOT /dev/nvme0n1p1
 
 # Mount the newly created partitons
-mount /dev/"$disk"2 /mnt
+mount /dev/nvme0n1p2 /mnt
 mkdir /mnt/boot
-mount /dev/"$disk"1 /mnt/boot
+mount /dev/nvme0n1p1 /mnt/boot
 
 # Configure and update the pacman index
 cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.bak
@@ -55,7 +49,7 @@ grep -E -A 1 ".*Germany.*$" /etc/pacman.d/mirrorlist.bak | sed '/--/d' > /etc/pa
 pacman -Sy
 
 # Install the base system
-pacstrap /mnt base base-devel intel-ucode wpa_supplicant dialog grub acpid dbus avahi cups cronie xorg xorg-drivers xf86-input-synaptics ttf-dejavu slim xfce4 xfce4-goodies faenza-icon-theme alsa-utils ntfs-3g gvfs udisks2 udiskie pulseaudio pulseaudio-alsa wireless_tools networkmanager network-manager-applet gnome-keyring xscreensaver redshift sudo dkms linux-headers dosfstools efibootmgr slock vlc clementine gimp thunderbird thunderbird-i18n-de atom evince firefox firefox-i18n-de flashplugin icedtea-web archlinux-themes-slim gnome-system-monitor
+pacstrap /mnt base base-devel intel-ucode wpa_supplicant dialog grub acpid dbus avahi cups cronie xorg xorg-drivers xf86-input-synaptics ttf-dejavu slim xfce4 xfce4-goodies faenza-icon-theme alsa-utils ntfs-3g gvfs udisks2 udiskie pulseaudio pulseaudio-alsa wireless_tools networkmanager network-manager-applet gnome-keyring xscreensaver sudo dkms linux-headers dosfstools efibootmgr slock archlinux-themes-slim gnome-system-monitor
 
 # Automatically generate the fstab file from the mount configuration
 genfstab -Lp /mnt > /mnt/etc/fstab

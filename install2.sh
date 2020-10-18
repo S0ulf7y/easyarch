@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script is intendet to install a simple and lightweight instance of Arch Linux on Desktop and Notebook systems.
+# This script is intended to install a simple and lightweight instance of Arch Linux on Desktop and Notebook systems.
 # The installation contains a setup for german language user expirience.
 # A working internet connection is required.
 # The installation process is splitted in two scripts. This is script 2/2 for the configuration of the base system.

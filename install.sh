@@ -129,6 +129,7 @@ echo 'echo "Done! Please restart your machine."' >> install2.sh
 ############## End of install2.sh
 
 # Copy the second file for the advanced config process to the hdd
+chmod +x install2.sh
 cp ./install2.sh /mnt
 
 ############## Start of setx11locale.service

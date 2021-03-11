@@ -48,7 +48,7 @@ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Enable all necessary services
-systemctl enable acpid avahi-daemon cups cronie systemd-timesyncd slim NetworkManager wpa_supplicant setx11locale
+systemctl enable acpid avahi-daemon cups cronie systemd-timesyncd gdm NetworkManager wpa_supplicant setx11locale
 
 # Disable the default DHCP service
 systemctl disable dhcpcd dhcpcd@
@@ -71,7 +71,6 @@ gpasswd -a "$username" network
 
 # Load xfce4 on startup
 echo '#!/bin/bash' > /home/"$username"/.xinitrc
-echo 'exec startxfce4' >> /home/"$username"/.xinitrc
 echo 'nm-applet' >> /home/"$username"/.xinitrc
 
 echo 'Done! Please restart your machine.'

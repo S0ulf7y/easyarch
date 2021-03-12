@@ -53,7 +53,7 @@ mount /dev/"$disk"1 /mnt/boot
 pacman -Sy
 
 # Install the base system
-pacstrap /mnt base base-devel intel-ucode linux linux-firmware wpa_supplicant dialog grub acpid dbus avahi cups cronie xorg xorg-drivers xf86-input-synaptics ttf-dejavu gnome gdm alsa-utils ntfs-3g gvfs udisks2 udiskie pulseaudio pulseaudio-alsa wireless_tools networkmanager network-manager-applet gnome-keyring nano vim redshift sudo dkms linux-headers dosfstools efibootmgr evince firefox firefox-i18n-de icedtea-web gnome-system-monitor
+pacstrap /mnt base base-devel intel-ucode linux linux-firmware wpa_supplicant dialog grub acpid dbus avahi cups cronie xorg xorg-drivers xf86-input-synaptics ttf-dejavu alsa-utils ntfs-3g lightdm lightdm-gtk-greeter gvfs udisks2 udiskie pulseaudio pulseaudio-alsa xfce4 xfce4-goodies wireless_tools networkmanager network-manager-applet gnome-keyring nano vim redshift sudo dkms linux-headers dosfstools efibootmgr evince firefox firefox-i18n-de icedtea-web gnome-system-monitor
 
 # Automatically generate the fstab file from the mount configuration
 genfstab -Lp /mnt > /mnt/etc/fstab

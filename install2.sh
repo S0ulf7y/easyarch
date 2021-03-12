@@ -43,22 +43,22 @@ echo "Please enter your user name"
 read username
 useradd -m -g users -s /bin/bash "$username"
 
+# Set the new users password
+echo 'Set' "$username"'s' 'password:'
+passwd "$username"
+
 # Install and configure GRUB2
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Enable all necessary services
-systemctl enable acpid avahi-daemon cups cronie systemd-timesyncd gdm NetworkManager wpa_supplicant setx11locale
+systemctl enable acpid avahi-daemon cups cronie systemd-timesyncd lightdm NetworkManager wpa_supplicant setx11locale
 
 # Disable the default DHCP service
 systemctl disable dhcpcd dhcpcd@
 
 # Make the script for the X11 keyymap executable
 chmod +x /usr/bin/setx11locale
-
-# Set the new users password
-echo 'Set' "$username"'s' 'password:'
-passwd "$username"
 
 # Give the "wheel" group sudo permissions
 echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
